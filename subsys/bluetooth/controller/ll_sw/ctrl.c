@@ -186,6 +186,12 @@ static struct {
 	u8_t  data_chan_count;
 	u8_t  sca;
 
+#if defined(CONFIG_BT_CTLR_CRC_STATS)
+	u8_t chan_curr;
+	u16_t crc_ok[40];
+	u16_t crc_nok[40];
+#endif
+
 #if defined(CONFIG_BT_CTLR_DATA_LENGTH)
 	/* DLE global settings */
 	u16_t default_tx_octets;
@@ -3566,6 +3572,9 @@ static inline void isr_rx_conn(u8_t crc_ok, u8_t trx_done,
 
 		/* Reset supervision counter */
 		_radio.conn_curr->supervision_expire = 0U;
+#if defined(CONFIG_BT_CTLR_CRC_STATS)
+		_radio.crc_ok[_radio.chan_curr]++;
+#endif
 	} else {
 		/* Start CRC error countdown, if not already started */
 		if (_radio.crc_expire == 0) {
@@ -3581,6 +3590,10 @@ static inline void isr_rx_conn(u8_t crc_ok, u8_t trx_done,
 			_radio.conn_curr->supervision_expire =
 				_radio.conn_curr->supervision_reload;
 		}
+
+#if defined(CONFIG_BT_CTLR_CRC_STATS)
+		_radio.crc_nok[_radio.chan_curr]++;
+#endif
 	}
 
 	/* prepare transmit packet */
@@ -5863,6 +5876,10 @@ static void chan_set(u32_t chan)
 	}
 
 	radio_whiten_iv_set(chan);
+
+#if defined(CONFIG_BT_CTLR_CRC_STATS)
+	_radio.chan_curr = chan;
+#endif
 }
 
 /** @brief Prepare access address as per BT Spec.
@@ -11699,6 +11716,18 @@ u32_t ll_tx_mem_enqueue(u16_t handle, void *node_tx)
 
 	return 0;
 }
+
+#if defined(CONFIG_BT_CTLR_CRC_STATS)
+void ll_chn_stats_get(u16_t *crc_ok, u16_t *crc_nok)
+{
+	if(crc_ok) {
+		memcpy(crc_ok, _radio.crc_ok, sizeof(_radio.crc_ok));
+	}
+	if(crc_nok) {
+		memcpy(crc_nok, _radio.crc_nok, sizeof(_radio.crc_nok));
+	}
+}
+#endif
 
 void __weak ll_adv_scan_state_cb(u8_t bm)
 {

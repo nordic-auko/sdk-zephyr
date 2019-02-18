@@ -582,6 +582,17 @@ config BT_CTLR_PROFILE_ISR
 	  contains current, minimum and maximum ISR entry latencies; and
 	  current, minimum and maximum ISR CPU use in micro-seconds.
 
+config BT_CTLR_CRC_STATS
+	bool "Generate CRC statistics for incoming packets"
+	depends on BT_HCI_VS_EXT
+	help
+	  This option enables accumulation of CRC OK and CRC ERROR values for received packets
+	  on a per-channel basis.
+	  The accumulated values can be retrieved via HCI (BT_HCI_OP_VS_REQ_CHN_STATS).
+	  The values are not cleared when read, and the reader should handle wrap-around.
+	  Note that BT channel indexing is used, as opposed to radio frequency directly.
+
+
 config BT_CTLR_DEBUG_PINS
 	bool "Bluetooth Controller Debug Pins"
 	depends on BOARD_NRF51_PCA10028 || BOARD_NRF52_PCA10040 || BOARD_NRF52810_PCA10040 || BOARD_NRF52840_PCA10056

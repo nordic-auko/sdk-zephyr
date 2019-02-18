@@ -128,6 +128,13 @@ struct bt_hci_cp_vs_set_scan_req_reports {
 	u8_t  enable;
 } __packed;
 
+#define BT_HCI_OP_VS_REQ_CHN_STATS              BT_OP(BT_OGF_VS, 0x000e)
+struct bt_hci_rp_vs_req_chn_stats {
+	u8_t  status;
+	u16_t crc_ok[40];
+	u16_t crc_nok[40];
+} __packed;
+
 /* Events */
 
 struct bt_hci_evt_vs {

@@ -83,6 +83,10 @@ u32_t ll_phy_get(u16_t handle, u8_t *tx, u8_t *rx);
 u32_t ll_phy_default_set(u8_t tx, u8_t rx);
 u32_t ll_phy_req_send(u16_t handle, u8_t tx, u8_t flags, u8_t rx);
 
+ #if defined(CONFIG_BT_CTLR_CRC_STATS)
+void ll_chn_stats_get(u16_t *crc_ok, u16_t *crc_nok);
+#endif
+
 /* Downstream - Data */
 void *ll_tx_mem_acquire(void);
 void ll_tx_mem_release(void *node_tx);

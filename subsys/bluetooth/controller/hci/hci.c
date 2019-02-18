@@ -1898,6 +1898,18 @@ static void vs_read_key_hierarchy_roots(struct net_buf *buf,
 #endif /* CONFIG_SOC_FAMILY_NRF */
 }
 
+#if defined(CONFIG_BT_CTLR_CRC_STATS)
+static void vs_req_chn_stats(struct net_buf *buf,
+					struct net_buf **evt)
+{
+	struct bt_hci_rp_vs_req_chn_stats *rp;
+
+	rp = cmd_complete(evt, sizeof(*rp));
+	rp->status = 0;
+	ll_chn_stats_get(rp->crc_ok, rp->crc_nok);
+}
+#endif /* CONFIG_BT_CTLR_CRC_STATS */
+
 #endif /* CONFIG_BT_HCI_VS_EXT */
 
 static int vendor_cmd_handle(u16_t ocf, struct net_buf *cmd,
@@ -1932,6 +1944,12 @@ static int vendor_cmd_handle(u16_t ocf, struct net_buf *cmd,
 	case BT_OCF(BT_HCI_OP_VS_READ_KEY_HIERARCHY_ROOTS):
 		vs_read_key_hierarchy_roots(cmd, evt);
 		break;
+
+#if defined(CONFIG_BT_CTLR_CRC_STATS)
+	case BT_OCF(BT_HCI_OP_VS_REQ_CHN_STATS):
+		vs_req_chn_stats(cmd, evt);
+		break;
+#endif /* CONFIG_BT_CTLR_CRC_STATS */
 #endif /* CONFIG_BT_HCI_VS_EXT */
 
 	default:
