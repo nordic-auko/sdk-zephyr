@@ -253,6 +253,25 @@ struct bt_iso_cig_param {
 	uint8_t framing;
 };
 
+struct bt_iso_cig_param_test {
+	struct bt_iso_cig_param cig_param;
+		/** @brief Number of subevents.
+	 */
+	uint8_t nse;
+
+	/** @brief Flush timeout.
+	 */
+	uint8_t ft;
+
+	/** @brief ISO interval [n * 1.25 ms].
+	 */
+	uint8_t iso_interval;
+
+	/** @brief Burst number.
+	 */
+	uint8_t bn;
+};
+
 struct bt_iso_connect_param {
 	/* The ISO channel to connect */
 	struct bt_iso_chan *iso_chan;
@@ -524,6 +543,23 @@ int bt_iso_server_register(struct bt_iso_server *server);
  *  @return 0 in case of success or negative value in case of error.
  */
 int bt_iso_cig_create(const struct bt_iso_cig_param *param,
+		      struct bt_iso_cig **out_cig);
+
+/** @brief Creates a CIG as a central
+ *
+ *  This can called at any time, even before connecting to a remote device.
+ *  This must be called before any connected isochronous stream (CIS) channel
+ *  can be connected.
+ *
+ *  Once a CIG is created, the channels supplied in the @p param can be
+ *  connected using bt_iso_chan_connect.
+ *
+ *  @param[in]  param     The parameters used to create and enable the CIG.
+ *  @param[out] out_cig  Connected Isochronous Group object on success.
+ *
+ *  @return 0 in case of success or negative value in case of error.
+ */
+int bt_iso_cig_test_create(const struct bt_iso_cig_param_test *param,
 		      struct bt_iso_cig **out_cig);
 
 /** @brief Reconfigure a CIG as a central
