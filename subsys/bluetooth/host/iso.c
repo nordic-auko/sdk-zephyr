@@ -878,6 +878,24 @@ void hci_le_cis_established(struct net_buf *buf)
 		return;
 	}
 
+	LOG_INF("hci_le_cis_established");
+	LOG_INF("status=%d", evt->status);
+	LOG_INF("conn_handle=%d", evt->conn_handle);
+	LOG_INF("cig_sync_delay=%02x-%02x-%02x", evt->cig_sync_delay[0], evt->cig_sync_delay[1], evt->cig_sync_delay[2]);
+	LOG_INF("cis_sync_delay=%02x-%02x-%02x", evt->cis_sync_delay[0], evt->cis_sync_delay[1], evt->cis_sync_delay[2]);
+	LOG_INF("c_latency=%02x-%02x-%02x", evt->c_latency[0], evt->c_latency[1], evt->c_latency[2]);
+	LOG_INF("p_latency=%02x-%02x-%02x", evt->p_latency[0], evt->p_latency[1], evt->p_latency[2]);
+	LOG_INF("c_phy=%d", evt->c_phy);
+	LOG_INF("p_phy=%d", evt->p_phy);
+	LOG_INF("nse=%d", evt->nse);
+	LOG_INF("c_bn=%d", evt->c_bn);
+	LOG_INF("p_bn=%d", evt->p_bn);
+	LOG_INF("c_ft=%d", evt->c_ft);
+	LOG_INF("p_ft=%d", evt->p_ft);
+	LOG_INF("c_max_pdu=%d", evt->c_max_pdu);
+	LOG_INF("p_max_pdu=%d", evt->p_max_pdu);
+	LOG_INF("interval=%d", evt->interval);
+
 	if (!evt->status) {
 		/* Reset sequence number */
 		iso->iso.seq_num = 0;
