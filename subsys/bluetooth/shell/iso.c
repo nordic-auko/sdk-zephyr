@@ -527,6 +527,72 @@ static int cmd_big_term(const struct shell *sh, size_t argc, char *argv[])
 }
 #endif /* CONFIG_BT_ISO_BROADCAST*/
 
+#if defined(CONFIG_BT_ISO_UNICAST) || defined(CONFIG_BT_ISO_BROADCAST)
+static int cmd_tx_sync_read(const struct shell *sh, size_t argc, char *argv[])
+{
+	struct bt_iso_transmit_info tx_info;
+	const struct bt_iso_chan *chan = NULL;
+	int err;
+	bool use_bis = false;
+	bool use_cis = false;
+
+#if defined(CONFIG_BT_ISO_UNICAST) && defined(CONFIG_BT_ISO_BROADCAST)
+	if (argc > 1) {
+		if (!strcmp(argv[1], "cis")) {
+			use_cis = true;
+		} else if (!strcmp(argv[1], "bis")) {
+			use_bis = true;
+		} else {
+			shell_error(sh, "Invalid option: %s", argv[1]);
+		}
+	}
+
+	if (!use_bis && !use_cis) {
+		shell_error(sh, "Both bis and cis enabled. Please choose one.");
+		return 0;
+	}
+#elif defined(CONFIG_BT_ISO_UNICAST)
+	use_cis = true;
+	ARG_UNUSED(use_bis);
+#elif defined(CONFIG_BT_ISO_BROADCAST)
+	use_bis = true;
+	ARG_UNUSED(use_cis);
+#endif /* defined(CONFIG_BT_ISO_UNICAST) && defined(CONFIG_BT_ISO_BROADCAST) */
+
+#if defined(CONFIG_BT_ISO_UNICAST)
+	if (use_cis) {
+		if (!iso_chan.iso) {
+			shell_error(sh, "Not bound");
+			return 0;
+		}
+
+		chan = &iso_chan;
+	}
+#endif /* defined(CONFIG_BT_ISO_UNICAST) */
+#if defined(CONFIG_BT_ISO_BROADCAST)
+	if (use_bis) {
+		if (!bis_iso_chan.iso) {
+			shell_error(sh, "BIG not created");
+			return -ENOEXEC;
+		}
+
+		chan = &bis_iso_chan;
+	}
+#endif /* defined(CONFIG_BT_ISO_BROADCAST) */
+
+	err = bt_iso_chan_get_tx_sync(chan, &tx_info);
+	if (err) {
+		shell_error(sh, "Unable to read sync info (err %d)", err);
+		return 0;
+	}
+
+	shell_print(sh, "TX sync info:\n\tTimestamp=%u\n\tOffset=%u\n\tSequence number=%u",
+		tx_info.ts, tx_info.to, tx_info.sn);
+
+	return 0;
+}
+#endif /* defined(CONFIG_BT_ISO_UNICAST) || defined(CONFIG_BT_ISO_BROADCAST) */
+
 SHELL_STATIC_SUBCMD_SET_CREATE(iso_cmds,
 #if defined(CONFIG_BT_ISO_UNICAST)
 	SHELL_CMD_ARG(cig_create, NULL, "[dir=tx,rx,txrx] [interval] [packing] [framing] "
@@ -539,6 +605,10 @@ SHELL_STATIC_SUBCMD_SET_CREATE(iso_cmds,
 	SHELL_CMD_ARG(disconnect, NULL, "Disconnect ISO Channel",
 		      cmd_disconnect, 1, 0),
 #endif /* CONFIG_BT_ISO_UNICAST */
+#if defined(CONFIG_BT_ISO_BROADCASTER) || defined(CONFIG_BT_ISO_UNICAST)
+	SHELL_CMD_ARG(tx_sync_read, NULL, "[bis/cis]",
+		      cmd_tx_sync_read, 1, 1),
+#endif /* defined(CONFIG_BT_ISO_BROADCASTER) || defined(CONFIG_BT_ISO_UNICAST) */
 #if defined(CONFIG_BT_ISO_BROADCASTER)
 	SHELL_CMD_ARG(create-big, NULL, "Create a BIG as a broadcaster [enc <broadcast code>]",
 		      cmd_big_create, 1, 2),
