@@ -224,6 +224,13 @@ struct bt_hci_rp_vs_write_sub_evt_space_delay {
 	uint8_t  status;
 } __packed;
 
+#define BT_HCI_OP_VS_READ_CRC_STATS BT_OP(BT_OGF_VS, 0x0005)
+struct bt_hci_rp_vs_read_crc_stats {
+	uint8_t status;
+	uint8_t success[37];
+	uint8_t fail[37];
+} __packed;
+
 /* Events */
 
 struct bt_hci_evt_vs {
