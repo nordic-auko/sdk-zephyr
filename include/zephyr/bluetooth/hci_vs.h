@@ -209,13 +209,13 @@ struct bt_hci_cp_vs_set_min_num_used_chans {
 	uint8_t  min_used_chans;
 } __packed;
 
-#define BT_HCI_OP_VS_READ_ISO_CIS_SUB_EVT_SPACE_DELAY BT_OP(BT_OGF_VS, 0x0003)
+#define BT_HCI_OP_VS_READ_ISO_CIS_SUB_EVT_SPACE_DELAY BT_OP(BT_OGF_VS, 0x0004)
 struct bt_hci_rp_vs_read_sub_evt_space_delay {
 	uint8_t status;
 	uint16_t  delay;
 } __packed;
 
-#define BT_HCI_OP_VS_WRITE_ISO_CIS_SUB_EVT_SPACE_DELAY BT_OP(BT_OGF_VS, 0x0004)
+#define BT_HCI_OP_VS_WRITE_ISO_CIS_SUB_EVT_SPACE_DELAY BT_OP(BT_OGF_VS, 0x0005)
 struct bt_hci_cp_vs_write_sub_evt_space_delay {
 	uint16_t  delay;
 } __packed;
@@ -224,7 +224,7 @@ struct bt_hci_rp_vs_write_sub_evt_space_delay {
 	uint8_t  status;
 } __packed;
 
-#define BT_HCI_OP_VS_READ_CRC_STATS BT_OP(BT_OGF_VS, 0x0005)
+#define BT_HCI_OP_VS_READ_CRC_STATS BT_OP(BT_OGF_VS, 0x0006)
 struct bt_hci_rp_vs_read_crc_stats {
 	uint8_t status;
 	uint8_t success[37];
