@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
+# zephyr-keep-sorted-start
+add_subdirectory(adi)
+# zephyr-keep-sorted-stop
+
 add_subdirectory_ifdef(CONFIG_A01NYUB a01nyub)
 add_subdirectory_ifdef(CONFIG_ADC_CMP_NPCX nuvoton_adc_cmp_npcx)
 add_subdirectory_ifdef(CONFIG_ADLTC2990 adltc2990)
