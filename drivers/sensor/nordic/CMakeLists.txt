@@ -3,6 +3,7 @@
 
 # zephyr-keep-sorted-start
 add_subdirectory_ifdef(CONFIG_NPM1300_CHARGER npm1300_charger)
+add_subdirectory_ifdef(CONFIG_NPM2100_VBAT npm2100_vbat)
 add_subdirectory_ifdef(CONFIG_QDEC_NRFX qdec_nrfx)
 add_subdirectory_ifdef(CONFIG_TEMP_NRF5 nrf5)
 # zephyr-keep-sorted-stop
