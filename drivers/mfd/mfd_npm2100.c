@@ -27,8 +27,8 @@
 #define RESET_TASKS_RESET     0xD0U
 #define RESET_BUTTON          0xD2U
 #define RESET_PIN             0xD3U
-#define RESET_WRITESTICKY     0xDAU
-#define RESET_STROBESTICKY    0xDBU
+#define RESET_WRITESTICKY     0xDBU
+#define RESET_STROBESTICKY    0xDCU
 
 #define TIMER_CONFIG_WKUP 3U
 
