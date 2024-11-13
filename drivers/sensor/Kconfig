@@ -73,18 +73,7 @@ config SENSOR_INFO
 
 comment "Device Drivers"
 
-# zephyr-keep-sorted-start
-source "drivers/sensor/adi/Kconfig"
-# zephyr-keep-sorted-stop
-
-source "drivers/sensor/a01nyub/Kconfig"
-source "drivers/sensor/adltc2990/Kconfig"
-source "drivers/sensor/adt7310/Kconfig"
-source "drivers/sensor/adt7420/Kconfig"
-source "drivers/sensor/adxl345/Kconfig"
-source "drivers/sensor/adxl362/Kconfig"
-source "drivers/sensor/adxl367/Kconfig"
-source "drivers/sensor/adxl372/Kconfig"
+source "drivers/sensor/nordic/Kconfig"
 source "drivers/sensor/ak8975/Kconfig"
 source "drivers/sensor/akm09918c/Kconfig"
 source "drivers/sensor/amd_sb_tsi/Kconfig"
@@ -190,10 +179,6 @@ source "drivers/sensor/nxp_tempmon/Kconfig"
 source "drivers/sensor/opt3001/Kconfig"
 source "drivers/sensor/pcnt_esp32/Kconfig"
 source "drivers/sensor/pms7003/Kconfig"
-source "drivers/sensor/qdec_mcux/Kconfig"
-source "drivers/sensor/qdec_nrfx/Kconfig"
-source "drivers/sensor/qdec_sam/Kconfig"
-source "drivers/sensor/qdec_stm32/Kconfig"
 source "drivers/sensor/rpi_pico_temp/Kconfig"
 source "drivers/sensor/s11059/Kconfig"
 source "drivers/sensor/sbs_gauge/Kconfig"

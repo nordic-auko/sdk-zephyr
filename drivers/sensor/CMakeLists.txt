@@ -2,6 +2,7 @@
 
 # zephyr-keep-sorted-start
 add_subdirectory(adi)
+add_subdirectory(nordic)
 # zephyr-keep-sorted-stop
 
 add_subdirectory_ifdef(CONFIG_A01NYUB a01nyub)
