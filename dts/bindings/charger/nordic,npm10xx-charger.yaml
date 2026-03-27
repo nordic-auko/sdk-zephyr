@@ -234,22 +234,3 @@ properties:
     description: |
       The device monitors VBUS and limits SYSREG current to maintain the VBUS voltage above the
       selected level. Choose a level to set during initialization.
-
-examples:
-  - |
-    npm1012: pmic@6a {
-      reg = <0x6a>;
-      compatible = "nordic,npm10xx";
-      /* ... */
-
-      charger {
-        compatible = "nordic,npm10xx-charger";
-        charging-enable;
-        charge-current-microamp = <25000>;
-        term-voltage-microvolt = <4200000>;
-        term-current-percent = "3.125%";
-        /* ... */
-      };
-
-      /* ... */
-    };

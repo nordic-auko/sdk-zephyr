@@ -13,18 +13,3 @@ properties:
     description: |
       Beta value of the battery thermistor. If not provided, the battery temperature
       measurement will not be available.
-
-examples:
-  - |
-    npm1012: pmic@6a {
-      reg = <0x6a>;
-      compatible = "nordic,npm10xx";
-      /* ... */
-
-      sensor {
-        compatible = "nordic,npm10xx-adc";
-        thermistor-beta = <3434>;
-      };
-
-      /* ... */
-    };

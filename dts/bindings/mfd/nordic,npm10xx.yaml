@@ -18,27 +18,3 @@ properties:
     description: |
       PMIC GPIO config for interrupt output <idx flags>. Index is 0 to 2. Use flags to provide
       additional configuration, for example, GPIO_OPEN_DRAIN.
-
-examples:
-  - |
-    npm1012: pmic@6a {
-      reg = <0x6a>;
-      compatible = "nordic,npm10xx";
-      host-int-gpios = <&gpio0 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-      pmic-int-gpio-config = <2 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
-
-      regulators {
-        compatible = "nordic,npm10xx-regulator";
-        /* ... */
-      };
-
-      charger {
-        compatible = "nordic,npm10xx-charger";
-        /* ... */
-      };
-
-      sensor {
-        compatible = "nordic,npm10xx-adc";
-        /* ... */
-      };
-    };
